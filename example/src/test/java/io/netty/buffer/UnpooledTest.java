@@ -39,7 +39,7 @@ import static org.junit.Assert.*;
  */
 public class UnpooledTest {
 
-    private static final ByteBuf[] EMPTY_BYTE_BUFS = new ByteBuf[0];
+    /*private static final ByteBuf[] EMPTY_BYTE_BUFS = new ByteBuf[0];
     private static final byte[][] EMPTY_BYTES_2D = new byte[0][];
 
     private static final Queue<ByteBuf> freeLaterQueue = new ArrayDeque<ByteBuf>();
@@ -591,5 +591,5 @@ public class UnpooledTest {
     public void skipBytesNegativeLength() {
         ByteBuf buf = freeLater(buffer(8));
         buf.skipBytes(-1);
-    }
+    }*/
 }

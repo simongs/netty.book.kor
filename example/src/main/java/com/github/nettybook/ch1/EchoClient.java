@@ -36,8 +36,11 @@ public final class EchoClient {
 
         try {
             Bootstrap b = new Bootstrap();
+
+            // 서버 쪽과는 다르게 이벤트 루프 그룹이 하나만 설정됨
+            // 서버와는 달리 서버에 연결된 채널 하나만 존재하기 떄문에 이벤트 루프 그룹이 하나이다
             b.group(group)
-             .channel(NioSocketChannel.class)
+             .channel(NioSocketChannel.class) // 채널의 종류 NIO 소켓 채널
              .handler(new ChannelInitializer<SocketChannel>() {
                  @Override
                  public void initChannel(SocketChannel ch) throws Exception {
@@ -45,7 +48,12 @@ public final class EchoClient {
                      p.addLast(new EchoClientHandler());
                  }
              });
-
+            // 비동기 입출력 메소드인 connect를 호출한다
+            // connect 메소드는 메소드의 호출 결과로 ChannelFuture 객체를 돌려준다
+            // 이 객체를 통해서 비동기 메소드의 처리결과를 확인할 수 있다
+            // ChannelFuture 객체의 sync()는 ChannelFuture 객체의 요청이 완료될 때까지 대기한다
+            // 요청이 실패하면 예외를 던진다
+            // 즉 connect 메소드의 처리가 완료될 때까지 다음라인으로 진행하지 않는다.
             ChannelFuture f = b.connect("localhost", 8888).sync();
 
             f.channel().closeFuture().sync();
